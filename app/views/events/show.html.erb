@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @event.title %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @event.status %>
+</p>
+
+<p><strong>Organizer:</strong>
+	 <%= link_to @event.phone_number, user_events_path(@event.phone_number) %> 
+</p>
+
+<p><strong>Plans:</strong>
+<ul>
+	<% unless @plans.nil?  %>
+	<% @plans.each do |plan| %>
+		<li><%= plan.title %>: <%= plan.location_title %>, <%= plan.location %>  (<%= link_to 'Delete plan', 'todo' %>)
+			<ul>
+				<% plan.attendees.each do |attendee| %>
+					<li><%= attendee.organizer_phone %>: <%= attendee.status%></li>
+				<% end %>
+			</ul>
+		</li>
+	<% end %>
+	<% end %>
+</ul>
+
+<p><strong>People:</strong>
+<ul>
+	<li>Organizer: <%= @event.organizer.first_name %> <%= @event.organizer.last_name %>, <%= @event.organizer.phone_number %></li>
+	<% if @event.attendees %>
+		<% @event.attendees.each do |attendee_id| %>
+			<li>Attendee: <%= @event.users_dict[attendee_id][:first_name] %> 
+				<%= @event.users_dict[attendee_id][:last_name] %>, <%= attendee_id %></li>
+		<% end %>
+	<% end %>
+</ul>
+
+<p><strong>Messages:</strong></p>
+<ul><% if !@event.messages %>
+		<li>None</li>
+	<% else %>
+		 <% @event.messages.each do |message| %>
+		 <li>From: <%= message.phone_number %>, Content: <%= message.content %></li>
+		 <% end %>
+	<% end %>
+</ul>
+
+New Message: <%= form_for [@event, Message.new] do |f| %>
+  <div class="field">
+    <%= f.text_field :content %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<br>
+<%= link_to 'New Plan', new_event_plan_path(@event) %><br>
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', user_events_path(@event.phone_number) %>

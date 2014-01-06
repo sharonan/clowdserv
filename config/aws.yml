@@ -1,0 +1,24 @@
+local_development:
+    use_ssl: false
+    dynamo_db_endpoint: localhost
+    dynamo_db_port: 4568
+    access_key_id: xxx
+    secret_access_key: xxx
+    
+development:
+    access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+    secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
+    dynamo_db_endpoint: dynamodb.us-west-2.amazonaws.com
+
+production:
+    access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+    secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
+    dynamo_db_endpoint: dynamodb.us-west-2.amazonaws.com
+    region: <%= ENV['AWS_REGION'] %>
+
+test: 
+    use_ssl: false
+    dynamo_db_endpoint: localhost
+    dynamo_db_port: 4567
+    access_key_id: xxx
+    secret_access_key: xxx
